@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %} Jobflow {% endblock %}
+{% block content %}
+<div class="well">
+    {% for tag in tags %}
+    <a href="{% url '_detail' hashtag=tag %}" class="btn btn-primary" role="button">{{tag}}</a>
+    {% endfor %}
+</div>
+{% for tweet in tweets %}
+<div class="panel panel-default">
+  <div class="panel-heading">StackDevJobs</div>
+  <div class="panel-body">
+    {{tweet.text}}}
+  </div>
+</div>
+
+{% endfor %}
+{% endblock %}

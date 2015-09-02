@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}Guestbook{% endblock %}</title>
+
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <style>
+      label {
+        width: 100px;
+      }
+      .errorlist {
+        color: red;
+      }
+    </style>
+
+    {% block style_extra %}{% endblock %}
+  </head>
+  <body>
+    <!-- Content -->
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+
+  <footer class="footer">
+    <div class="container">
+      {% block footer %}{% endblock %}
+    </div>
+  </footer>
+    <!-- Javascript is placed at the bottom of the page for faster page loads -->
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!-- Global javascript -->
+    <script>
+    </script>
+
+    {% block script_extra %}{% endblock %}
+  </body>
+</html>
