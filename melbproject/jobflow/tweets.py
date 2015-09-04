@@ -36,9 +36,11 @@ class Twitterbot(object):
                     key = tag['text']
                     tags.append(key)
                     if key not in self.hashtags:
-                        self.hashtags[key] = [count]
+                        #self.hashtags[key] = [count]
+                        self.hashtags[key] = 1
                     else:
-                        self.hashtags[key].append(count)
+                        #self.hashtags[key].append(count)
+                        self.hashtags[key] += 1
                 item['hashtags'] = tags
                 self.tweets.append(item)
         # print(self.hashtags)
@@ -46,6 +48,9 @@ class Twitterbot(object):
 
     def getHashTags(self):
         return self.hashtags.keys()
+
+    def getHashTagData(self):
+        return self.hashtags
 
     def getTweets(self, hashtag=None):
         if not hashtag:
@@ -56,7 +61,7 @@ class Twitterbot(object):
     def filterTweets(self, hashtag):
         return [tweet for tweet in self.tweets if hashtag in tweet['hashtags']]
 
-# x = Twitterbot(3)
-# print(x.filterTweets("java"))
+# x = Twitterbot(13)
+# print(x.getHashTagData())
 # print(x.getTweets())
 

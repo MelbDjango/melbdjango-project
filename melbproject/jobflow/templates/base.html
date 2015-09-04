@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block title %}Guestbook{% endblock %}</title>
+    <title>{% block title %}JobOverflow{% endblock %}</title>
 
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -25,6 +25,17 @@
     {% block style_extra %}{% endblock %}
   </head>
   <body>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{% url '_home' %}">JobOverflow</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a href="{% url '_home' %}">Technologies</a></li>
+          <li><a href="{% url '_viz' %}">Viz</a></li>
+        </ul>
+      </div>
+    </nav>
     <!-- Content -->
     <div class="container">
       {% block content %}{% endblock %}

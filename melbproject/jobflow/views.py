@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from django.http import JsonResponse
 from .tweets import Twitterbot
 
-data = Twitterbot(10)
+data = Twitterbot(30)
 
 
 class HomePageView(TemplateView):
@@ -11,7 +12,6 @@ class HomePageView(TemplateView):
 
     def __init__(self, **kwargs):
         super(HomePageView, self).__init__(**kwargs)
-        # self.data = Twitterbot(10)
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
@@ -33,3 +33,21 @@ class FilterByTagView(TemplateView):
         context['tags'] = data.getHashTags()
         context['tweets'] = data.getTweets(hashtag)
         return context
+
+
+class VisualView(TemplateView):
+
+    template_name = 'viz.html'
+
+    def __init__(self, **kwargs):
+        super(VisualView, self).__init__(**kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(VisualView, self).get_context_data(**kwargs)
+        context['tweets'] = data.getTweets()
+        return context
+
+
+def countTags(request):
+    stuff = data.getHashTagData()
+    return JsonResponse(dict(stuff), safe=False)
