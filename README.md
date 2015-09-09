@@ -1,7 +1,7 @@
 # MelbDjango Project
 
 So, you've done our [Guestbook assignment][gh-guestbook], now it's time to move beyond that and onto your own project!
-
+**
 
 ### Make Something Cool
 
