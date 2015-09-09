@@ -20,12 +20,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'jj85wa%flkikyo*o#1gmk=&5nf@anl7c3bhb2ob(m_*do_uu(y'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'B00Yah!')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', False)
+TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['<myapp>.herokuapp.com']
 
 
 # Application definition
@@ -83,6 +84,10 @@ DATABASES = {
     }
 }
 
+import dj_database_url
+DATABASES = {
+    'default': dj_database_url.config(default='sqlite:///{}'.format(DATABASES['default']['NAME']))
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -102,3 +107,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = '/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
