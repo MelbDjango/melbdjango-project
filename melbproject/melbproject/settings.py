@@ -84,10 +84,10 @@ DATABASES = {
     }
 }
 
-"""import dj_database_url
+import dj_database_url
 DATABASES = {
     'default': dj_database_url.config(default='sqlite:///{}'.format(DATABASES['default']['NAME']))
-}"""
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
