@@ -1,0 +1,74 @@
+{% extends 'bootstrap.html' %}
+{% block content %}
+<style>
+.errornote, .errorlist { color: darkred; }
+</style>
+
+    <div class="container-full">
+        <div class="row">
+            <div class="col-lg-12 text-center v-center">
+                 <h1 class="">Event Manager</h1>
+                <p class="lead">An event management system.</p>
+                <br class="">
+
+                {% if form.errors and not form.non_field_errors %}
+                <p class="errornote">
+                    {% if form.errors.items|length == 1 %}
+                        Please correct the error below.
+                    {% else %}
+                        Please correct the errors below.
+                    {% endif %}
+                </p>
+                {% endif %}
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="errornote">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+
+                <div class="panel panel-primary col-sm-offset-3 col-sm-6">
+                    <div class="panel-heading">
+                        Please log in
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ request.get_full_path }}" method="post" id="login-form" >
+                            {%  csrf_token %}
+                            <div class="row v-center">
+                                {{ form.username.errors }}
+                            </div>
+                            <div class="input-group input-group-lg col-sm-offset-3 col-sm-6">
+                                <input type="text" class="center-block form-control input-lg col-sm-offset-3 col-sm-6" title="Enter your user name"
+                                       placeholder="Username" id="id_username" name="{{ form.username.name }}">
+                            </div>
+                            <div class="row v-center">
+                                {{ form.password.errors }}
+                            </div>
+                            <div class="input-group input-group-lg col-sm-offset-3 col-sm-6">
+                                <input type="password" class="center-block form-control input-lg col-sm-offset-3 col-sm-6" title="Enter your password"
+                                       placeholder="Password" id="id_password" name="{{ form.password.name }}">
+                            </div>
+                            <div class="row">
+                                <br>
+                            </div>
+                            <div class="input-group input-group-lg input-group-btn">
+                                <button class="btn btn-lg btn-primary" type="submit">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row" style="height: 40px">
+        </div>
+        <div class="row panel text-center">
+            The code for this django app is located at: <a href="https://github.com/deeprave/eventmgr">https://github.com/deeprave/eventmgr</a>.
+        </div>
+    </div> <!-- /container full -->
+
+
+<script type="text/javascript">
+document.getElementById('id_username').focus()
+</script>
+
+{% endblock %}
