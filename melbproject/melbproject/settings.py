@@ -23,10 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'B00Yah!')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', False)
+DEBUG = True # os.environ.get('DJANGO_DEBUG', False)
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['<myapp>.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'jobflow'
+    'jobflow',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -84,10 +84,10 @@ DATABASES = {
     }
 }
 
-import dj_database_url
+"""import dj_database_url
 DATABASES = {
     'default': dj_database_url.config(default='sqlite:///{}'.format(DATABASES['default']['NAME']))
-}
+}"""
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
