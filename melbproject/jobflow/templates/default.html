@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block title %} JobOverflow {% endblock %}
+
 {% block content %}
 <div class="well">
     {% for tag in tags %}
-    <a href="{% url '_detail' hashtag=tag %}" class="btn btn-primary" role="button">{{tag}}</a>
+    <a href="{% url '_detail' hashtag=tag.name %}" class="btn btn-primary" role="button">{{tag.name}}</a>
     {% endfor %}
 </div>
 {% for tweet in tweets %}
@@ -13,6 +14,5 @@
     {{tweet.text}}
   </div>
 </div>
-
 {% endfor %}
 {% endblock %}

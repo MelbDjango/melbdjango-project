@@ -10,7 +10,6 @@ class Twitterbot(object):
     consumer_secret = os.environ.get('TWITTERAPI_CONSUMER_SECRET', None)
     api = None
     response = None
-    max_id = None
     first_time = True
     twitter_account = None
     tweet_count = None
@@ -26,59 +25,41 @@ class Twitterbot(object):
             auth_type='oAuth2'
         )
 
-        # get the timeline without max_id
-        self.response = self.api.request(
-            'statuses/user_timeline',
-            {'screen_name': self.twitter_account,
-             'count': self.tweet_count})
-
-        self.readTweets()
-
     def readTweets(self):
-        count = 0
         for tweet in self.response.get_iterator():
             if tweet['text'] and tweet['entities']['hashtags']:
                 if self.first_time:
                     """Parse for the user info during the first call"""
-                    tu = TwitterUser()
-                    tu.descriptive_name = tweet['user']['name']
-                    tu.twitter_handle = tweet['user']['screen_name']
-                    tu.profile_img_url = tweet['user']['profile_image_url']
-                    tu.url = tweet['user']['url']
-                    tu.save()
+                    
+                    twitteruser, tu_ok = TwitterUser.objects.get_or_create(
+                        descriptive_name=tweet['user']['name'],
+                        twitter_handle=tweet['user']['screen_name'],
+                        profile_img_url=tweet['user']['profile_image_url'],
+                        url=tweet['user']['url']
+                    )
+
                     self.first_time = False
 
                 # save the tweet
-                tw = Tweet()
-                tw.text = tweet['text']
-                tw.created_at = tweet['created_at']
-                tw.message_id = tweet['id']
-                tw.user = TwitterUser.objects.last()
-                tw.save()
+                tw, tw_ok = Tweet.objects.get_or_create(
+                    text=tweet['text'],
+                    created_at=tweet['created_at'],
+                    message_id=tweet['id'],
+                    user=TwitterUser.objects.last()
+                )
 
                 # look for hashtags
                 for tag in tweet['entities']['hashtags']:
-                    hashtag, created = HashTag.objects.get_or_create(name=tag['text'])
-                    
-                    if created:
-                        hashtag.save()
-                        hashtag.tweet.add(tw)
-
-                count += 1
-        print("found ", count, "new tweets")
+                    hashtag, created = HashTag.objects.get_or_create(
+                        name=tag['text'],
+                        tweet=Tweet.objects.last())
 
     def refresh(self):
-        # get the last tweet that has the largest id so far
-        max = Tweet.objects.all().aggregate(Max('message_id'))
-        self.max_id = max['message_id__max'] - 1
-        print(self.max_id)
-
         # make the request
         self.response = self.api.request(
             'statuses/user_timeline',
             {'screen_name': self.twitter_account,
-             'count': self.tweet_count,
-             'max_id': self.max_id})
+             'count': self.tweet_count})
 
         self.readTweets()
 

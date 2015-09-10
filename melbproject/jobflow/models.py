@@ -24,8 +24,8 @@ class Tweet(models.Model):
 
 
 class HashTag(models.Model):
-    name = models.CharField(max_length=200, unique=True)
-    tweet = models.ManyToManyField('Tweet')
+    name = models.CharField(max_length=200)
+    tweet = models.ForeignKey('Tweet')
 
     def __str__(self):
         return '#{}'.format(self.name)
