@@ -9,10 +9,17 @@
 </div>
 {% for tweet in tweets %}
 <div class="panel panel-default">
-  <div class="panel-heading">StackDevJobs</div>
+  <div class="panel-heading">StackDevJobs
+    {% if tweet.ticked %}
+    <span class="pull-right glyphicon glyphicon-heart" aria-hidden="true"></span>
+    {% else %}
+    <a href="{% url '_add' pk=tweet.pk %}" ><span class="pull-right glyphicon glyphicon-heart-empty" aria-hidden="true"></span></a>
+    {% endif %}
+  </div>
   <div class="panel-body">
     {{tweet.text}}
   </div>
 </div>
 {% endfor %}
+
 {% endblock %}

@@ -1,10 +1,17 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView
-from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import TemplateView, ListView
+from django.http import JsonResponse, HttpResponse
 from django.db.models import Count
-from .models import Tweet, HashTag
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from .models import Tweet, HashTag, ShortListTweet
 from .tweets import Twitterbot
 
+class LoginRequiredMixin(object):
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 class HomePageView(TemplateView):
 
@@ -16,7 +23,19 @@ class HomePageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
         context['tags'] = HashTag.objects.all().values('name').distinct()
-        context['tweets'] = Tweet.objects.all()
+        
+        tweets = Tweet.objects.all()
+        if self.request.user.is_authenticated():
+            shortlist = ShortListTweet.objects.filter(author=self.request.user)
+            shortlist = [ item.tweet for item in shortlist ]
+            blah = []
+            for tweet in tweets:
+                tweet.ticked = False
+                if tweet in shortlist:
+                    tweet.ticked = True
+                blah.append(tweet)
+            tweets = blah
+        context['tweets'] = tweets
         return context
 
 
@@ -46,6 +65,32 @@ class VisualView(TemplateView):
         context = super(VisualView, self).get_context_data(**kwargs)
         context['tweets'] = Tweet.objects.all()
         return context
+
+
+class ShortlistView(LoginRequiredMixin, ListView):
+
+    model = ShortListTweet
+    template_name = 'shortlist.html'
+
+    def get_queryset(self):
+        queryset = super(ShortlistView, self).get_queryset()
+        queryset = queryset.filter(author=self.request.user)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(ShortlistView, self).get_context_data(**kwargs)
+        shortlist = self.get_queryset()
+        context['tweets'] = [item.tweet for item in shortlist]
+        return context
+
+
+@login_required
+def shortListJob(request, pk):
+    shortlist = ShortListTweet()
+    shortlist.author = request.user
+    shortlist.tweet = get_object_or_404(Tweet, pk=pk)
+    shortlist.save()
+    return redirect('_home')
 
 
 def countTags(request):

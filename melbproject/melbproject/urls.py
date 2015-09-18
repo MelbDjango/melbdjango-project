@@ -19,6 +19,6 @@ from django.contrib import admin
 from jobflow import urls as jobflow_urls
 
 urlpatterns = [
-    url(r'^', include(jobflow_urls)),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^', include(jobflow_urls)),
 ]

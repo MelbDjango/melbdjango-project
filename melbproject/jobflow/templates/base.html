@@ -33,6 +33,14 @@
         <ul class="nav navbar-nav">
           <li><a href="{% url '_home' %}">Technologies</a></li>
           <li><a href="{% url '_viz' %}">Viz</a></li>
+          <li><a href="{% url '_short' %}">My Jobs</a></li>
+        </ul>
+        <ul class="pull-right nav navbar-nav">
+          {% if user.is_anonymous %}
+          <li><a href="{% url 'login' %}">login</a></li>
+          {% else %}
+          <li><a href="{% url 'logout' %}">logout @{{user}}</a></li>
+          {% endif %}
         </ul>
       </div>
     </nav>

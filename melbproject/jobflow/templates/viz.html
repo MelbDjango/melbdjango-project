@@ -3,16 +3,7 @@
 {% block content %}
 <div id="chart" class="well">
 </div>
-{% for tweet in tweets %}
-<div class="panel panel-default">
-  <div class="panel-heading">StackDevJobs</div>
-  <div class="panel-body">
-    {{tweet.text}}
-  </div>
-</div>
-{% endfor %}
 {% endblock %}
-
 
 {% block script_extra %}
 <script src="http://d3js.org/d3.v3.js"></script>
@@ -69,3 +60,5 @@ d3.select(self.frameElement).style("height", diameter + "px");
 
 </script>
 {% endblock %}
+
+
