@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %} JobOverflow {% endblock %}
+
+{% block content %}
+{% for tweet in tweets %}
+<div class="panel panel-default">
+  <div class="panel-heading">StackDevJobs<span class="pull-right glyphicon glyphicon-heart" aria-hidden="true"></span></div>
+  <div class="panel-body">
+    {{tweet.text}}
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}

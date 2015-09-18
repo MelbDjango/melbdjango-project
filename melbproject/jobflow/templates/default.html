@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %} JobOverflow {% endblock %}
+
+{% block content %}
+<div class="well">
+    {% for tag in tags %}
+    <a href="{% url '_detail' hashtag=tag.name %}" class="btn btn-primary" role="button">{{tag.name}}</a>
+    {% endfor %}
+</div>
+{% for tweet in tweets %}
+<div class="panel panel-default">
+  <div class="panel-heading">StackDevJobs
+    {% if tweet.ticked %}
+    <span class="pull-right glyphicon glyphicon-heart" aria-hidden="true"></span>
+    {% else %}
+    <a href="{% url '_add' pk=tweet.pk %}" ><span class="pull-right glyphicon glyphicon-heart-empty" aria-hidden="true"></span></a>
+    {% endif %}
+  </div>
+  <div class="panel-body">
+    {{tweet.text}}
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}
